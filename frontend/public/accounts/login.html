@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Login Page | Security Index</title>
+	
+
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+  <script src="../static/js/jquery-3.5.1.min.js"></script>
+  <script src="../static/js/popper.min.js"></script>
+	<script src="../static/js/bootstrap.min.js"></script>
+
+
+	<style>
+
+		#loginbtn {
+		  background-color: #0a69b9;
+		  color: #FFFFFF;
+		  text-align: center;
+		  transition: all 0.5s;
+		  cursor: pointer;
+		}
+		#loginbtn:hover {
+			background-color: #0c7ad6;
+			transition: 0.5s;
+			/* opacity: 0.7; */
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		#loginbtn span {
+		  cursor: pointer;
+			font-size: 20px;
+		  display: inline-block;
+		  position: relative;
+		  transition: 0.5s;
+		}
+
+		#loginbtn span:after {
+		  content: '\00bb';
+			font-size: 20px;
+		  position: absolute;
+		  opacity: 0;
+		  top: 0;
+		  right: -20px;
+		  transition: 0.5s;
+		}
+
+		#loginbtn:hover span {
+		  padding-right: 25px;
+		}
+
+		#loginbtn:hover span:after {
+		  opacity: 1;
+		  right: 0;
+			top: 0;
+		}
+
+		html {
+			height: 100%;
+		}
+
+		body {
+			overflow-y: hidden;
+			min-height: 100%;
+			margin: 0;
+			padding: 0;
+			/* For browsers that do not support gradients */
+			background-image: linear-gradient(to bottom, #465c6f, #1F1E30);
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100%;
+			color: #C9C9D3;
+			font-family: 'Quicksand', sans-serif;
+			text-align: center;
+		}
+
+		h1 {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 2.3rem;
+		}
+
+		@media screen and (max-width: 800px) {
+			/* h1 {
+				font-size: 1.5rem;
+			}
+			img {
+				height: 50px;
+			} */
+			form {
+				width: 80% !important;
+				/* padding-left: 0!important;
+					padding-right: 0!important; */
+			}
+			p {
+				width: 100% !important;
+				margin-left: 0 !important;
+				padding-top: 15px;
+			}
+		}
+
+		@media screen and (max-height: 680px) {
+			body {
+				overflow-y: auto;
+			}
+
+			form {
+				width: 50% !important;
+				/* padding-left: 0!important;
+					padding-right: 0!important; */
+			}
+
+			.fixed-bottom {
+				position: relative;
+				padding-bottom: 0px !important;
+				margin-bottom: 0px !important;
+			}
+
+		}
+
+		@media screen and (max-width: 480px) {
+			body {
+				overflow-y: auto;
+			}
+			h1 {
+				font-size: 1.5rem;
+			}
+			img {
+				height: 50px;
+			}
+			form {
+				width: 100% !important;
+				padding-left: 0 !important;
+				padding-right: 0 !important;
+			}
+			.fixed-bottom{
+				position: relative;
+			}
+			p {
+				width: 100% !important;
+				margin-left: 0 !important;
+				font-size: 15px;
+				padding-top: 15px;
+			}
+			#loginbtn {
+				font-size: 15px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	
+	<div class="text-center p-5 pt-5 px-5 pb-0">
+		<h1 class="mt-4 font-weight-bold">HARDENING</h1>
+
+		<div class="container p-3">
+			<form action="../index.html" method="post" class="mx-auto mt-2" style="width: 50%; padding: 3%">
+			<input type="hidden" name="csrfmiddlewaretoken" value="qcb0PXOkvJjKOXPGOYnySjOXjlWYzRUD93W5ecmz7D2Q2K8S4LnJUAwWYx823IFd">
+				
+
+				<label class="sr-only" for="inlineFormInputGroup">Username</label>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<span class="fas fa-user"></span>
+						</div>
+					</div>
+					<input id="inlineFormInputGroup" type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+				</div>
+
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+							<span class="fas fa-unlock"></span>
+						</div>
+					</div>
+					<input type="password" name="password" placeholder="Password" required class="form-control">
+				</div>
+
+				<button class="btn btn-lg btn-block" type="submit" name="button" id="loginbtn">
+					<span class="font-weight-bold">ĐĂNG NHẬP </span>
+				</button>
+
+			</form>
+		</div>
+
+	</div>
+
+</body>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+		event.preventDefault(); // Ngăn không cho form gửi yêu cầu mặc định
+	
+		const username = document.querySelector('input[name="username"]').value;
+		const password = document.querySelector('input[name="password"]').value;
+	
+		// Gửi yêu cầu đăng nhập tới API /api/token/
+		fetch('http://localhost:5000/api/token/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				username: username,
+				password: password,
+			}),
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Đăng nhập thất bại. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.');
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (data.access) {
+				// Lưu access token và refresh token vào localStorage
+				localStorage.setItem('accessToken', data.access);
+				localStorage.setItem('refreshToken', data.refresh);
+				alert('Đăng nhập thành công!');
+	
+				// Chuyển hướng người dùng sang trang chính (home page)
+				window.location.href = "../index.html";
+			} else {
+				alert('Đăng nhập thất bại. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.');
+			}
+		})
+		.catch(error => {
+			alert(error.message);
+			console.error('Lỗi:', error);
+		});
+	});
+	
+</script>
+
+
+</html>

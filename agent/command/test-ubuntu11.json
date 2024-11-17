@@ -1,0 +1,87 @@
+{
+    "category": "test ubuntu11",
+    "slug": "test-ubuntu11",
+    "command": "No command",
+    "expected_output": "No expected output",
+    "tasks": [
+        {
+            "task": "t1",
+            "slug": "t1",
+            "combine": "AND",
+            "scored": true,
+            "remediation": "No remediation",
+            "note": "No note",
+            "commands": [
+                {
+                    "command": "ádasd",
+                    "expected_output": "ádasd",
+                    "operator": "Regex",
+                    "parser": "No parser"
+                },
+                {
+                    "command": "ádasd",
+                    "expected_output": "ádasd",
+                    "operator": "Equal",
+                    "parser": "No parser"
+                }
+            ]
+        },
+        {
+            "task": "t2",
+            "slug": "t2",
+            "combine": "AND",
+            "scored": true,
+            "remediation": "No remediation",
+            "note": "No note",
+            "commands": [
+                {
+                    "command": "ádasdádasd",
+                    "expected_output": "ádasdasd",
+                    "operator": "Regex",
+                    "parser": "No parser"
+                },
+                {
+                    "command": "ádasdasd",
+                    "expected_output": "ádasdasd",
+                    "operator": "Between",
+                    "parser": "No parser"
+                }
+            ]
+        }
+    ],
+    "children": [
+        {
+            "category": "cat12",
+            "slug": "cat12",
+            "command": "No command",
+            "expected_output": "No expected output",
+            "tasks": [
+                {
+                    "task": "1.4.2 Cấu hình kích hoạt ASLR",
+                    "slug": "142-cau-hinh-kich-hoat-aslr",
+                    "combine": "AND",
+                    "scored": true,
+                    "remediation": "No remediation",
+                    "note": "No note",
+                    "commands": [
+                        {
+                            "command": "qưeqwe",
+                            "expected_output": "qưeqwe",
+                            "operator": "Between",
+                            "parser": "No parser"
+                        }
+                    ]
+                }
+            ],
+            "children": []
+        },
+        {
+            "category": "cat11",
+            "slug": "cat11",
+            "command": "No command",
+            "expected_output": "No expected output",
+            "tasks": [],
+            "children": []
+        }
+    ]
+}

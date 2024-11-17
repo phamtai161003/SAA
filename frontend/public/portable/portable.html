@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        Hardening
+    </title>
+
+    
+
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/datatables.min.css">
+
+    
+    
+
+    <script src="../static/js/jquery-3.5.1.min.js"></script>
+    <script src="../static/js/jquery.form.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/datatables.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/fontawesome/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">Hardening</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#nav_menu"
+      aria-controls="nav_menu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav_menu">
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+          <a class="nav-link" href="/">Results</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href=portable.html>Portable</a>
+        </li>
+        
+          <li class="nav-item ">
+            <a class="nav-link" href=../accounts/user.html>User</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../administration/administration.html">Administration</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../accounts/productivity.html">Productivity</a>
+          </li>
+        
+      </ul>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="../accounts/login.html">Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  
+  <div class="jumbotron-fluid p-3">
+    <div class="card-deck" style="margin-top: 20px">
+      <div class="card">
+        <div class="card-body">
+          <div class="text-center">
+            <h3 class="h3 font-weight-bold">AGENT</h3>
+            <span class="radio-input">
+              <input type="radio" id="linux" name="os" value="linux" checked onchange="changeOs()">
+              <label for="linux">Linux</label>
+            </span>
+            <span class="radio-input">
+              <input type="radio" id="windows" name="os" value="windows" onchange="changeOs()">
+              <label for="windows">Windows</label><br><br>
+            </span>
+            <i class="fa fa-file" style="font-size:72px;"></i><br><br>
+            <a id="agent-download" href="http://localhost:5000/api/agent/download/?os=linux"><button class="btn"><i class="fa fa-download"></i> Download</button></a>
+            <br><br>
+            <p id="sha-agent"></p><br><br>
+            
+              <span class="h3 font-weight-bold">UPDATE</span><br><br>
+              <form id="uploadFile" action="http://localhost:5000/api/agent/upload/?os=linux" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrfmiddlewaretoken" value="7l6LNZKGyPiYDoHfKk1Rn23JwSPujTLYQcRQceiVaJ14Rb0r0712pjLIb41yNKwy">
+                <div class="input-group mx-auto">
+                  <div class="custom-file">
+                    <input id="agent-file" type="file" class="custom-file-input" name="agent_file" onchange="changeName('agent-file')">
+                    <label id="agent-file-label" class="custom-file-label">Choose agent file...</label>
+                  </div>
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">Upload file to server</button>
+                  </div>
+                </div>
+              </form>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="text-center">
+            <h3 class="h3 font-weight-bold">DATASET</h3><br>
+          </div>
+          <form>
+            <div class="form-group row">
+              <label for="activation-days" class="col-sm-2 col-form-label">Activation days</label>
+              <div class="col-sm-10">
+                <input class="form-control" id="activation-days" onchange="updateDatasetDownloadUrl()" value="1">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="category" class="col-sm-2 col-form-label">Category</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="category" onchange="updateDatasetDownloadUrl()">
+                  <option value="">All</option>
+                  <!-- Các mục sẽ được tạo động ở đây -->
+              </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="crypto-key" class="col-sm-2 col-form-label">Key</label>
+              <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" style="color: white" id="crypto-key" value="">
+              </div>
+            </div>            
+          </form>
+          <br>
+          <div class="text-center">
+            <i class="fa fa-save" style="font-size:72px;"></i><br><br>
+            <a id="dataset-download" href="/dataset/download/?activation_days=1"><button class="btn"><i class="fa fa-download"></i> Download</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-deck" style="margin: 20px auto; width: 50%">
+      <div class="card">
+        <div class="card-body">
+          <div class="text-center">
+            <h3 class="h3 font-weight-bold">UPLOAD RESULT</h3><br><br>
+            <form id="uploadResult" enctype="multipart/form-data">
+              <div class="form-group">
+                  <label for="upload-result-project" class="col-form-label">Project:</label>
+                  <select class="form-control" id="upload-result-project" name="project" required onchange="showCreateNewProject(event)">
+                      <option value="" disabled selected hidden>Choose project ...</option>
+                      <option value="NEW">Add new Project</option>
+                  </select>
+              </div>
+              <div class="input-group mx-auto">
+                  <div class="custom-file">
+                      <input id="result-file" type="file" class="custom-file-input" name="file" required>
+                      <label id="result-file-label" class="custom-file-label">Choose result file...</label>
+                  </div>
+                  <div class="input-group-append">
+                      <button class="btn btn-secondary" type="button" id="uploadResultButton">Upload file to server</button>
+                  </div>
+              </div>
+          </form>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show" id="notiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Notification</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="notiModalBody">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeNotiModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="createProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createProjectModalLabel">Create Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="project-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="project-name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="createNewProject()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let csrf_token = '<input type="hidden" name="csrfmiddlewaretoken" value="7l6LNZKGyPiYDoHfKk1Rn23JwSPujTLYQcRQceiVaJ14Rb0r0712pjLIb41yNKwy">'
+
+    //function changeName(file_type) {
+    //  let filename =$(`#${file_type}`).val().split('\\').pop()
+    //  $(`#${file_type}-label`).html(filename)
+    //}
+
+    function changeOs() {
+      let os = $('input[name=os]:checked').val();
+      document.getElementById('agent-download').href = `http://localhost:5000/api/agent/download/?os=${os}`; // Đường dẫn tải xuống
+  
+      // Cập nhật action cho form upload
+      try {
+          document.getElementById('uploadFile').action = `http://localhost:5000/api/agent/upload/?os=${os}`;
+      } catch {}
+  
+      // Gọi API để lấy SHA256
+      $.ajax({
+          type: 'GET',
+          url: `http://localhost:5000/api/agent/sha/?os=${os}`, // Sửa lại dấu nháy
+          success: function (data) {
+              document.getElementById('sha-agent').innerHTML = `SHA256: ${data['sha256']}`;
+          },
+          error: function (xhr) {
+              console.error('Error:', xhr);
+              alert('Error: ' + xhr.responseText);
+          }
+      });
+  }
+  
+
+  function loadCryptoKeyAndSetupDownload() {
+    const token = localStorage.getItem('accessToken');
+
+    // Gọi API lấy thông tin người dùng và crypto key
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:5000/api/users/me/', // API lấy thông tin người dùng
+        headers: {'Authorization': `Bearer ${token}`},
+        success: function(data) {
+            const cryptoKey = data.crypto_key || '';
+            document.getElementById('crypto-key').value = cryptoKey;
+
+            // Chỉ cập nhật URL nếu `cryptoKey` hợp lệ
+            if (cryptoKey) {
+                updateDatasetDownloadUrl(cryptoKey);
+            } else {
+                console.warn("Crypto key is missing.");
+            }
+        },
+        error: function(xhr) {
+            console.error('Error loading user crypto key:', xhr);
+            alert('Unable to load crypto key.');
+        }
+    });
+}
+
+
+function updateDatasetDownloadUrl(cryptoKey) {
+  const days = document.getElementById('activation-days').value || 1;
+  const category = document.getElementById('category').value;
+
+  if (!cryptoKey || !category) {
+      console.warn("Crypto key or category is missing, waiting for input.");
+      return;
+  }
+
+  const downloadUrl = `http://localhost:5000/dataset/download/?activation_days=${days}&category=${category}&key=${cryptoKey}`;
+  document.getElementById('dataset-download').href = downloadUrl;
+  console.log('Download URL updated:', downloadUrl);
+}
+
+
+
+  
+
+    function closeNotiModal() {
+      if (document.getElementById('notiModalBody').innerHTML === 'Upload successfully') {
+        $('input[name=agent_file]').val('')
+      }
+      location.reload();
+    }
+
+    function showCreateNewProject(event) {
+      if (event.target.value === "NEW") {
+        $('#createProjectModal').modal({
+          show: true
+        })
+        document.getElementById('upload-result-project').value = ''
+      }
+    }
+
+    function getProject(selected=null){
+      const token = localStorage.getItem('accessToken');
+
+      $.ajax({
+        type: 'GET',
+        url: `http://localhost:5000/api/projects/`,
+        headers: {'Authorization': `Bearer ${token}`},
+        success: function (data) {
+          let select = document.getElementById('upload-result-project')
+          let len = select.options.length
+          for (let i = len-1; i >=2; i--) {
+            select.options[i] = null
+          }
+          for (let i = 0; i < data.length; i++) {
+            let option_obj = document.createElement('option')
+            option_obj.text = data[i].name
+            option_obj.value = data[i].id
+            select.options[2+i] = option_obj
+          }
+          if(selected)
+            select.value = selected
+        }
+      })
+    }
+
+    function createNewProject(){
+      const token = localStorage.getItem('accessToken');
+
+      let data = {
+        'name': document.getElementById('project-name').value,
+        'status': 'True'
+      }
+      $.ajax({
+        type: 'POST',
+        url: `http://localhost:5000/api/projects/`,
+        headers: {'Authorization': `Bearer ${token}`},
+        data: data,
+        success: function (data){
+          getProject(data.id)
+          $('#createProjectModal').modal('hide')
+        }
+      })
+    }
+
+    $('#uploadFile').ajaxForm({
+      success: function () {
+        $('#notiModal').modal({
+          show: true
+        })
+        $('#notiModalBody').text('Upload successfully')
+      },
+      error: function () {
+        $('#notiModal').modal({
+          show: true
+        })
+        $('#notiModalBody').text('Upload fail')
+      }
+    })
+
+    $('#uploadResult').ajaxForm({
+      success: function (res) {
+        $('#notiModal').modal({
+          show: true
+        })
+        $('#notiModalBody').text(res['message'])
+      },
+      error: function (res) {
+        $('#notiModal').modal({
+          show: true
+        })
+        $('#notiModalBody').text(res['responseJSON']['message'])
+      }
+    })
+
+    $(".custom-file-input").on("change", function(){
+      var numFiles = $(this).get(0).files.length
+      $(this).siblings(".custom-file-label").addClass("selected").html(numFiles + ' files selected');
+    })
+
+    getProject();
+    changeOs();
+    
+  </script>
+
+
+
+  
+  <script type="text/javascript" src="../static/js/plugins/js-cookie/js.cookie.min.js"></script>
+  <script>
+    function loadCategories() {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:5000/api/categories/',  // API lấy danh sách danh mục
+        success: function(data) {
+          const categorySelect = $('#category');
+          categorySelect.find('option:not(:first)').remove(); // Xóa các mục hiện tại (trừ "All")
+    
+          // Thêm các danh mục cha vào select
+          data.forEach(function(category) {
+            if (!category.parent) {  // Chỉ thêm các danh mục cha
+              categorySelect.append(new Option(category.name, category.slug));
+            }
+          });
+    
+          // Gọi lại updateDatasetDownloadUrl() khi danh mục thay đổi
+          categorySelect.change(function () {
+            const cryptoKey = document.getElementById('crypto-key').value || 'No Key Found';
+            updateDatasetDownloadUrl(cryptoKey);
+          });
+        },
+        error: function(xhr) {
+          console.error('Error loading categories:', xhr);
+        }
+      });
+    }
+  
+  $(document).ready(function() {
+    loadCryptoKeyAndSetupDownload(); // Lấy key trước
+    loadCategories();               // Sau đó tải danh mục
+});
+
+  document.getElementById('uploadResultButton').addEventListener('click', function () {
+    const token = localStorage.getItem('accessToken'); // Lấy token từ localStorage
+    if (!token) {
+        alert("Authentication required. Please log in.");
+        window.location.href = "/accounts/login.html"; // Chuyển hướng nếu không có token
+        return;
+    }
+
+    const form = document.getElementById('uploadResult');
+    const formData = new FormData(form);
+
+    const project = document.getElementById('upload-result-project').value;
+    const fileInput = document.getElementById('result-file');
+    if (!project || fileInput.files.length === 0) {
+        alert("Please select a project and a file.");
+        return;
+    }
+
+    formData.append('project', project);
+    formData.append('file', fileInput.files[0]);
+
+    fetch('http://localhost:5000/results/upload/', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Thêm Authorization Header
+        },
+        body: formData,
+    })
+        .then((response) => {
+            const contentType = response.headers.get("content-type");
+            if (contentType.includes("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+                return response.blob(); // Nếu là file .docx, xử lý blob
+            } else if (contentType.includes("application/json")) {
+                return response.json(); // Nếu là JSON, xử lý như JSON
+            } else {
+                throw new Error("Unexpected content type: " + contentType);
+            }
+        })
+        .then((data) => {
+            if (data instanceof Blob) {
+                // Xử lý khi response là file (Blob)
+                const url = window.URL.createObjectURL(data);
+                const a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.download = "result.docx"; // Đặt tên file tải xuống
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                alert("File downloaded successfully.");
+            } else {
+                // Xử lý khi response là JSON
+                console.log(data);
+                alert(data.message || "Upload successful.");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("File upload failed. Please try again.");
+        });
+});
+
+
+  </script>
+
+</body>
+</html>

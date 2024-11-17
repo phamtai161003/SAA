@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        Hardening
+    </title>
+
+    
+
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/datatables.min.css">
+
+    
+  <link rel="stylesheet" href="../static/css/pages/table.css">
+  <link rel="stylesheet" href="../static/css/bootstrap-datepicker.min.css">
+
+
+    <script src="../static/js/jquery-3.5.1.min.js"></script>
+    <script src="../static/js/jquery.form.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/datatables.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/fontawesome/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">Hardening</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#nav_menu"
+      aria-controls="nav_menu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav_menu">
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+          <a class="nav-link" href="/">Results</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href=../portable/portable.html>Portable</a>
+        </li>
+        
+          <li class="nav-item ">
+            <a class="nav-link" href=user.html>User</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../administration/administration.html">Administration</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="productivity.html">Productivity</a>
+          </li>
+        
+      </ul>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href=login.html>Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  
+  <div class="table-container">
+    <table class="table-dual">
+      <tbody>
+        <tr id="title_row">
+          <td>
+            <h5 class="m-0 d-inline">Group</h5>
+          </td>
+          <td>
+            <h5 class="m-0">Results</h5>
+          </td>
+        </tr>
+        <tr id="content_row">
+          <td>
+            <div class="d-flex flex-column justify-content-between fit-height">
+              <div id="sidebar_list">
+  
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="start-date" class="col-form-label">Start date:</label>
+                <input id="start-date" type="text" class="form-control" placeholder="Start date" data-date-format='yyyy-mm-dd' onchange="reloadResults()">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="end-date" class="col-form-label">End date:</label>
+                <input id="end-date" type="text" class="form-control" placeholder="End date" data-date-format='yyyy-mm-dd' onchange="reloadResults()">
+              </div>
+              <div class="col-md-6"></div>
+            </div>
+            <div class="card-deck" style="margin-top: 20px">
+              <div class="card">
+                <div id="productivity-detail" class="card-body">
+                  
+                </div>
+              </div>
+              <div class="card">
+                <canvas id="result-detail"></canvas>
+              </div>
+              <div class="card">
+                <canvas id="project-detail"></canvas>
+              </div>
+            </div>
+            <div class="card-deck" style="margin-top: 20px">
+              <div class="card">
+                <div class="card-body">
+                  <h5 id="toggle-p">Detail</h5>
+                  <table id="detailsTable" class="table table-dark table-striped table-bordered detailsTable" style="text-align: center; height:100px;">
+                    <thead>
+                        <tr  style="background-color: #274b77; color: white">
+                            <th scope="col" style="width: 20%" >Created<span class="fa float-right"></span></th>
+                            <th scope="col" style="width: 20%">Name<span class="fa float-right mt-3"></span></th>
+                            <th scope="col" style="width: 30%">Project<span class="fa float-right mt-3"></span></th>
+                            <th scope="col" style="width: 10%">Creator<span class="fa float-right mt-3"></span></th>
+                            <th scope="col" style="width: 10%">Result<span class="fa float-right"></span></th>
+                            <th scope="col" style="" >Score<span class="fa float-right"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<script>
+  function handleError(jqXHR) {
+    console.error(jqXHR);
+    alert(`Error: ${jqXHR.responseText}`);
+  }
+  
+  function ajaxGetGroupUser() {
+    const token = localStorage.getItem('accessToken');
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: 'http://127.0.0.1:5000/api/groups/',
+        method: 'GET',
+        headers: {'Authorization': `Bearer ${token}`},
+        xhrFields: {withCredentials: true},
+        dataType: 'json',
+        success: resolve,
+        error: reject,
+      })
+    })
+  }
+  
+  function getGroupUser() {
+    ajaxGetGroupUser().then((response) => {
+      renderGroupList(response);
+    }, handleError)
+  }
+  
+  function renderGroupList(groupUser) {
+    groupUser.push({
+      id: '',
+      name: 'All'
+    })
+    let groupUserHtml = groupUser.map((group) => { return `
+      <div class="sidebar" data-groupid="${group.id}">
+        <div class="font-weight-bold title">
+          <span class="text">${group.name}</span>
+        </div>
+      </div>
+    `}).join('')
+    $('#sidebar_list').empty();
+    $('#sidebar_list').html(groupUserHtml)
+  }
+
+  function renderChart() {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:5000/api/productchart/',  
+      data: {
+        group_id: (window.productivity === undefined) ? '' : window.productivity.currentGroupId || '',
+      },
+      success: function(data) {
+        var chart_result_data = {
+          labels: data['month'],
+          datasets: [{
+            backgroundColor: "white",
+            data: data['no_result']
+          }]
+        }
+
+        if (window.chart_result) {
+          window.chart_result.data = chart_result_data
+          window.chart_result.update()
+        }
+
+        var chart_result_project = {
+          labels: data['month'],
+          datasets: [{
+            backgroundColor: "white",
+            data: data['no_project']
+          }]
+        }
+
+        if (window.chart_project) {
+          window.chart_project.data = chart_result_project
+          window.chart_project.update()
+        }
+    
+      }
+    })
+  }
+
+  $(document).ready(function (){
+    const token = localStorage.getItem('accessToken');
+
+      getGroupUser();
+
+      var sd = new Date();
+      sd.setMonth(sd.getMonth() - 1);
+      $('#start-date').datepicker({ autoclose: true });
+      $('#start-date').datepicker('update', sd);
+      $('#end-date').datepicker({ autoclose: true });
+      $('#end-date').datepicker('update', new Date());
+
+      window.chart_result = new Chart("result-detail", {
+              type: "bar",
+              data: {},
+              options: {
+                title: {
+                  display: true,
+                  fontColor: "white",
+                  text: "Results"
+                },
+                legend: {display: false},
+                scales: {
+                  xAxes: [{ 
+                    ticks: {fontColor: "white"}
+                  }],
+                  yAxes: [{
+                    ticks: { beginAtZero: true, fontColor: "white"}
+                  }]
+                }
+              }
+            })
+
+      window.chart_project = new Chart("project-detail", {
+              type: "bar",
+              data: {},
+              options: {
+                title: {
+                  display: true,
+                  fontColor: "white",
+                  text: "Projects"
+                },
+                legend: {display: false},
+                scales: {
+                  xAxes: [{ 
+                    ticks: {fontColor: "white"}
+                  }],
+                  yAxes: [{
+                    ticks: { beginAtZero: true, fontColor: "white"}
+                  }]
+                }
+              }
+            })
+      
+      window.productivity = $('#detailsTable').DataTable({
+        "autoWidth": false,
+        
+        ajax: function(data, callback, settings) {
+          $.ajax({
+            type: 'GET',
+            url: 'http://127.0.0.1:5000/api/productivity/',  
+            headers: {'Authorization': `Bearer ${token}`},
+            data: {
+              group_id: (window.productivity === undefined) ? '' : window.productivity.currentGroupId || '',
+              start_date: document.getElementById('start-date').value,
+              end_date: document.getElementById('end-date').value
+            },
+          }).then((response) => {
+            var productivity_html = `<table style="height: 100%">
+                <tr>
+                  <td class="col-md-6">Total Project</td>
+                  <td class="col-md-6">`+ response.total_project +`</td>
+                </tr>
+                <tr>
+                  <td class="col-md-6">Total Result</td>
+                  <td class="col-md-6">`+ response.total_result +`</td>
+                </tr>
+                <tr>
+                  <td class="col-md-6">New Project</td>
+                  <td class="col-md-7">`+ response.new_project +`</td>
+                </tr>
+                <tr>
+                  <td class="col-md-6">New Result</td>
+                  <td class="col-md-6">`+ response.new_result +`</td>
+                </tr>
+              </table>`
+            $('#productivity-detail').html(productivity_html);
+            callback({data: response.results})
+          }, handleError)
+        },
+        columns: [
+          { data: 'created' },
+          { data: 'name' },
+          { data: 'project.name' },
+          { data: 'creator' },
+          { data: null, defaultContent: '<button>1</button>' },
+          { data: null, defaultContent: '<button>2</button>' },
+        ],
+        'order': [[0, 'desc']]
+      })
+
+      $("#detailsTable_wrapper").hide();
+      renderChart();
+  })
+
+  function handleProjectSelect(){
+    let groupId = $(this).attr('data-groupid');
+    window.productivity.currentGroupId = groupId;
+    reloadResults()
+    renderChart()
+  }
+
+  function reloadResults(){
+    if (window.productivity) {
+      window.productivity.ajax.reload();
+    }
+  }
+
+  $('#sidebar_list').on('click', '.sidebar', handleProjectSelect);
+  $("#toggle-p").click(function() { $("#detailsTable_wrapper").toggle()})
+</script>
+
+
+  
+  <!--<script type="text/javascript" src="/static/js/pages/user/productivity.js"></script>-->
+  <script type="text/javascript" src="../static/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+  <script type="text/javascript" src="../static/js/plugins/js-cookie/js.cookie.min.js"></script>
+  <script type="text/javascript" src="../static/js/Chart.js"></script>
+
+</body>
+</html>

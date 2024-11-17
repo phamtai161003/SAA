@@ -1,0 +1,34 @@
+{
+    "category": "Windows Server",
+    "slug": "windows-server",
+    "command": "No command",
+    "expected_output": "No expected output",
+    "tasks": [],
+    "children": [
+        {
+            "category": "ádasd",
+            "slug": "dasd",
+            "command": "No command",
+            "expected_output": "No expected output",
+            "tasks": [
+                {
+                    "task": "test 1-1",
+                    "slug": "test-1-1",
+                    "combine": "AND",
+                    "scored": true,
+                    "remediation": "ádasd",
+                    "note": "No note",
+                    "commands": [
+                        {
+                            "command": "ádasdasd",
+                            "expected_output": "ádasd",
+                            "operator": "Regex",
+                            "parser": "No parser"
+                        }
+                    ]
+                }
+            ],
+            "children": []
+        }
+    ]
+}

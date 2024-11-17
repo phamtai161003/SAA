@@ -1,0 +1,5 @@
+Category Name: ádasdasd
+Slug: 1231241254123
+Command: ádasd
+Expected Output: 
+Additional Info: You can add more details here.
