@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        Hardening
+    </title>
+
+    
+
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/datatables.min.css">
+
+    
+  <link rel="stylesheet" href="../static/css/pages/administration/administration.css">
+
+
+    <script src="../static/js/jquery-3.5.1.min.js"></script>
+    <script src="../static/js/jquery.form.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/datatables.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/fontawesome/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">Hardening</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#nav_menu"
+      aria-controls="nav_menu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav_menu">
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+          <a class="nav-link" href="/">Results</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href=../portable/portable.html>Portable</a>
+        </li>
+        
+          <li class="nav-item ">
+            <a class="nav-link" href=../accounts/user.html>User</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="administration.html">Administration</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../accounts/productivity.html">Productivity</a>
+          </li>
+        
+      </ul>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="../accounts/login.html">Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  
+<div class="table-container">
+  <table class="administration">
+    <tbody>
+      <tr id="title_row">
+        <td>
+          <h5 class="m-0">Categories</h5>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <h5 class="m-0">Tasks</h5>
+            <button id="task_new_button" type="button" class="btn btn-sm btn-outline-primary ml-3">
+              <i class="fa fa-plus"></i>
+              New Task
+            </button>
+          </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <h5 class="m-0">Commands</h5>
+            <button id="command_new_button" type="button" class="btn btn-sm btn-outline-primary ml-3">
+              <i class="fa fa-plus"></i>
+              New Command
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr id="content_row">
+        <td>
+          <div class="d-flex flex-column justify-content-between fit-height">
+            <div id="category_tree">
+              <!-- Render category tree here -->
+            </div>
+            <div id="category_form">
+              <span class="close">
+                <i class="fa fa-times"></i>
+              </span>
+              <form>
+                <div class="mb-2">
+                  <label for="category_name_input" class="required">Category Name</label>
+                  <input id="category_name_input" class="" oninput="handleGenerateCategorySlug()"/>
+                </div>
+                <div class="mb-2">
+                  <label for="category_slug_input" class="required">Slug</label>
+                  <input id="category_slug_input" class="" />
+                </div>
+                <div class="mb-2">
+                  <label for="category_cmd_input">Cmd</label>
+                  <textarea id="category_cmd_input" class=""></textarea>
+                </div>
+                <div class="mb-2">
+                  <label for="category_expect_output_input">Expected Output</label>
+                  <textarea id="category_expect_output_input" class=""></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-sm btn-primary">
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="position-relative d-flex flex-column justify-content-between fit-height">
+            <div id="task_loader">Loading...</div>
+            <div id="task_list">
+              <!-- Render task list here -->
+            </div>
+            <div id="task_form">
+              <span class="close">
+                <i class="fa fa-times"></i>
+              </span>
+              <form>
+                <div class="mb-2">
+                  <label for="task_category_input" class="required">Category</label>
+                  <select id="task_category_input">
+                    <!-- Render task category options here -->
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label for="task_combine_input" class="required">Combine</label>
+                  <select id="task_combine_input">
+                    <option value="AND">And</option>
+                    <option value="OR">Or</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label for="task_name_input" class="required">Name</label>
+                  <input id="task_name_input" class="" />
+                </div>
+                <div class="mb-2">
+                  <input id="task_scored_input" type="checkbox" class="" />
+                  <label for="task_scored_input" class="mb-0 ml-2">Scored</label>
+                </div>
+                <div class="mb-2">
+                  <label for="task_remediation_input">Remediation</label>
+                  <textarea id="task_remediation_input" class=""></textarea>
+                </div>
+                <div class="mb-2">
+                  <label for="task_note_input">Note</label>
+                  <textarea id="task_note_input" class=""></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-sm btn-primary">
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="position-relative d-flex flex-column justify-content-between fit-height">
+            <div id="command_loader">Loading...</div>
+            <div id="command_list">
+              <!-- Render command list here -->
+            </div>
+            <div id="command_form">
+              <span class="close">
+                <i class="fa fa-times"></i>
+              </span>
+              <form>
+                <div class="mb-2">
+                  <label for="command_operator_input" class="required">Operator</label>
+                  <select id="command_operator_input">
+                    <option value="AllIn">All in</option>
+                    <option value="Contain">Contain</option>
+                    <option value="Equal">Equal</option>
+                    <option value="IncludeOneOf">Include one of</option>
+                    <option value="NotContain">Not contain</option>
+                    <option value="NotEqual">Not equal</option>
+                    <option value="PermissionLowerOrEqual">Permission lower or equal</option>
+                    <option value="Regex">Regex</option>
+                    <option value="GreaterThan">Greater Than</option>
+                    <option value="GreaterThanOrEqual"> Greater Than Or Equal</option>
+                    <option value="LessThan">Less Than</option>
+                    <option value="LessThanOrEqual">Less Than Or Equal</option>
+                    <option value="Between">Between</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label for="command_cmd_input" class="required">Command</label>
+                  <textarea id="command_cmd_input" class=""></textarea>
+                </div>
+                <div class="mb-2">
+                  <label for="command_expect_input">Expect</label>
+                  <textarea id="command_expect_input" class=""></textarea>
+                </div>
+                <div class="mb-2">
+                  <label for="command_parser_input">Parser</label>
+                  <textarea id="command_parser_input" class=""></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-sm btn-primary">
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+  
+  <script type="text/javascript" src="../static/js/plugins/js-cookie/js.cookie.min.js"></script>
+  <script type="text/javascript" src="../static/js/plugins/colresizable/colResizable-1.6.min.js"></script>
+  <script type="text/javascript" src="../static/js/plugins/jstree/jstree.min.js"></script>
+  <script type="text/javascript" src="../static/js/pages/administration/administration.js"></script>
+
+</body>
+</html>

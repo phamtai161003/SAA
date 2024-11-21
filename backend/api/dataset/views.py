@@ -10,16 +10,10 @@ import os
 class DatasetDownloadView(View):
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-
-        # Kiểm tra người dùng đã đăng nhập
-        if not user.is_authenticated:
-            return JsonResponse({"error": "Authentication requiredss"}, status=401)
-
-        # Lấy crypto_key từ người dùng
-        crypto_key = user.crypto_key
+        # Lấy crypto_key từ query params
+        crypto_key = request.GET.get('key')
         if not crypto_key:
-            return JsonResponse({"error": "User does not have a crypto key"}, status=400)
+            return JsonResponse({"error": "Crypto key is required"}, status=400)
 
         # Đảm bảo crypto_key là key hợp lệ cho Fernet
         try:

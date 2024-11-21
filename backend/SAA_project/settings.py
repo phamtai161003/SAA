@@ -181,7 +181,7 @@ CORS_ALLOWED_ORIGINS = [
 DATABASE_ROUTERS = ['SAA_project.db_routers.MongoDBRouter']
 CORS_ALLOW_CREDENTIALS = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','admin']
 CORS_ALLOW_HEADERS = [
     'Authorization',
     'X-CSRFToken',

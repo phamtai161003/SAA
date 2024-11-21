@@ -139,7 +139,7 @@
           <br>
           <div class="text-center">
             <i class="fa fa-save" style="font-size:72px;"></i><br><br>
-            <a id="dataset-download" href="/dataset/download/?activation_days=1"><button class="btn"><i class="fa fa-download"></i> Download</button></a>
+            <a id="dataset-download" href=""><button class="btn"><i class="fa fa-download"></i> Download</button></a>
           </div>
         </div>
       </div>
@@ -251,49 +251,36 @@
   }
   
 
+  function updateDatasetDownloadUrl(cryptoKey) {
+    const days = document.getElementById('activation-days').value;
+    const category = document.getElementById('category').value;
+  
+    // Tạo đường dẫn với các tham số cần thiết
+    const downloadUrl = `http://localhost:5000/dataset/download/?activation_days=${days}&category=${category}&key=${cryptoKey}`;
+    document.getElementById('dataset-download').href = downloadUrl;
+  }
   function loadCryptoKeyAndSetupDownload() {
     const token = localStorage.getItem('accessToken');
-
-    // Gọi API lấy thông tin người dùng và crypto key
+    
+    // Lấy thông tin người dùng và crypto key
     $.ajax({
-        type: 'GET',
-        url: 'http://localhost:5000/api/users/me/', // API lấy thông tin người dùng
-        headers: {'Authorization': `Bearer ${token}`},
-        success: function(data) {
-            const cryptoKey = data.crypto_key || '';
-            document.getElementById('crypto-key').value = cryptoKey;
-
-            // Chỉ cập nhật URL nếu `cryptoKey` hợp lệ
-            if (cryptoKey) {
-                updateDatasetDownloadUrl(cryptoKey);
-            } else {
-                console.warn("Crypto key is missing.");
-            }
-        },
-        error: function(xhr) {
-            console.error('Error loading user crypto key:', xhr);
-            alert('Unable to load crypto key.');
-        }
+      type: 'GET',
+      url: 'http://localhost:5000/api/users/me/', // API để lấy thông tin người dùng hiện tại
+      headers: {'Authorization': `Bearer ${token}`},
+      success: function(data) {
+        // Hiển thị Crypto key của người dùng
+        const cryptoKey = data.crypto_key || 'No Key Found';
+        document.getElementById('crypto-key').value = cryptoKey;
+  
+        // Cập nhật đường dẫn tải xuống với crypto_key và các tham số khác
+        updateDatasetDownloadUrl(cryptoKey);
+      },
+      error: function(xhr) {
+        console.error('Error loading user crypto key:', xhr);
+        alert('Unable to load crypto key.');
+      }
     });
-}
-
-
-function updateDatasetDownloadUrl(cryptoKey) {
-  const days = document.getElementById('activation-days').value || 1;
-  const category = document.getElementById('category').value;
-
-  if (!cryptoKey || !category) {
-      console.warn("Crypto key or category is missing, waiting for input.");
-      return;
   }
-
-  const downloadUrl = `http://localhost:5000/dataset/download/?activation_days=${days}&category=${category}&key=${cryptoKey}`;
-  document.getElementById('dataset-download').href = downloadUrl;
-  console.log('Download URL updated:', downloadUrl);
-}
-
-
-
   
 
     function closeNotiModal() {
@@ -393,7 +380,6 @@ function updateDatasetDownloadUrl(cryptoKey) {
 
     getProject();
     changeOs();
-    
   </script>
 
 
@@ -427,12 +413,11 @@ function updateDatasetDownloadUrl(cryptoKey) {
         }
       });
     }
-  
+  // Gọi hàm loadCategories khi trang được tải
   $(document).ready(function() {
-    loadCryptoKeyAndSetupDownload(); // Lấy key trước
-    loadCategories();               // Sau đó tải danh mục
-});
-
+    loadCryptoKeyAndSetupDownload(); // Lấy key và cập nhật đường dẫn tải xuống
+    loadCategories(); // Tải danh sách danh mục
+  });
   document.getElementById('uploadResultButton').addEventListener('click', function () {
     const token = localStorage.getItem('accessToken'); // Lấy token từ localStorage
     if (!token) {

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Josefin+Sans|Montserrat:700|Bungee+Outline|Dancing+Script|Lemonada|Itim|Lobster|Pacifico|Chonburi|Roboto');
+
+@font-face {
+  font-family: SegoeUI;
+  src: url(webfonts/segoeui.ttf)
+}
+
+body {
+  font-family: SegoeUI;
+  color: #C9C9D3;
+  position: relative;
+  overflow-x: hidden;
+  background-color: #1F1E30!important;
+  /* min-height: 100vh; */
+  margin: 0;
+}
+
+.card {
+  background-color: #272A3D!important;
+}
+
+.modal {
+  color: #495057;
+}
+
+.fa:hover {
+  color: red;
+}
+
+@media screen and (min-width: 992px) {
+  .navbar .navbar-collapse .form-inline {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width:1550px) {
+  div#anno span{
+    font-size: 0.8rem!important;
+  }
+}
+
+nav.navbar {
+  background-color: #272A3D;
+}
+
+nav.navbar a.navbar-brand {
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+nav.navbar .navbar-toggler {
+  color: #C9C9D3;
+}
+
+nav.navbar .navbar-nav .nav-item .nav-link {
+  color: #9d9daf;
+}
+
+nav.navbar .navbar-nav .nav-item.active .nav-link {
+  color: white;
+  font-weight: bold;
+}

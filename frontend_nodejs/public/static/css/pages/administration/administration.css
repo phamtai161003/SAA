@@ -1,0 +1,440 @@
+/* fira-code-300 - latin */
+@font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 300;
+    src: local(''),
+         url('../../../fonts/FiraCode-Bold.ttf') format('truetype');
+  }
+  /* fira-code-regular - latin */
+  @font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+         url('../../../fonts/FiraCode-Regular.ttf') format('truetype');
+  }
+  /* fira-code-500 - latin */
+  @font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 500;
+    src: local(''),
+         url('../../../fonts/FiraCode-Medium.ttf') format('truetype');
+  }
+  /* fira-code-600 - latin */
+  @font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+         url('../../../fonts/FiraCode-SemiBold.ttf') format('truetype');
+  }
+  /* fira-code-700 - latin */
+  @font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''),
+         url('../../../fonts/FiraCode-Bold.ttf') format('truetype');
+  }
+  
+  div.table-container {
+    --item-hover: #14141f;
+    --item-active: #2f85d0;
+    --command-text: #599dd9;
+    --input-background: #14141f;
+    --border: #73738c;
+    padding: 0 .5rem;
+    font-size: 13px;
+  }
+  
+  table.administration {
+    height: calc(100vh - 56px);
+    width: 100%;
+  }
+  
+  table.administration td {
+    vertical-align: top;
+  }
+  
+  table.administration td:first-child {
+    width: 20rem;;
+  }
+  
+  table.administration td .row {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+  
+  table.administration td .row .col,
+  table.administration td .row .col-1,
+  table.administration td .row .col-10,
+  table.administration td .row .col-11,
+  table.administration td .row .col-12,
+  table.administration td .row .col-2,
+  table.administration td .row .col-3,
+  table.administration td .row .col-4,
+  table.administration td .row .col-5,
+  table.administration td .row .col-6,
+  table.administration td .row .col-7,
+  table.administration td .row .col-8,
+  table.administration td .row .col-9,
+  table.administration td .row .col-auto,
+  table.administration td .row .col-lg,
+  table.administration td .row .col-lg-1,
+  table.administration td .row .col-lg-10,
+  table.administration td .row .col-lg-11,
+  table.administration td .row .col-lg-12,
+  table.administration td .row .col-lg-2,
+  table.administration td .row .col-lg-3,
+  table.administration td .row .col-lg-4,
+  table.administration td .row .col-lg-5,
+  table.administration td .row .col-lg-6,
+  table.administration td .row .col-lg-7,
+  table.administration td .row .col-lg-8,
+  table.administration td .row .col-lg-9,
+  table.administration td .row .col-lg-auto,
+  table.administration td .row .col-md,
+  table.administration td .row .col-md-1,
+  table.administration td .row .col-md-10,
+  table.administration td .row .col-md-11,
+  table.administration td .row .col-md-12,
+  table.administration td .row .col-md-2,
+  table.administration td .row .col-md-3,
+  table.administration td .row .col-md-4,
+  table.administration td .row .col-md-5,
+  table.administration td .row .col-md-6,
+  table.administration td .row .col-md-7,
+  table.administration td .row .col-md-8,
+  table.administration td .row .col-md-9,
+  table.administration td .row .col-md-auto,
+  table.administration td .row .col-sm,
+  table.administration td .row .col-sm-1,
+  table.administration td .row .col-sm-10,
+  table.administration td .row .col-sm-11,
+  table.administration td .row .col-sm-12,
+  table.administration td .row .col-sm-2,
+  table.administration td .row .col-sm-3,
+  table.administration td .row .col-sm-4,
+  table.administration td .row .col-sm-5,
+  table.administration td .row .col-sm-6,
+  table.administration td .row .col-sm-7,
+  table.administration td .row .col-sm-8,
+  table.administration td .row .col-sm-9,
+  table.administration td .row .col-sm-auto,
+  table.administration td .row .col-xl,
+  table.administration td .row .col-xl-1,
+  table.administration td .row .col-xl-10,
+  table.administration td .row .col-xl-11,
+  table.administration td .row .col-xl-12,
+  table.administration td .row .col-xl-2,
+  table.administration td .row .col-xl-3,
+  table.administration td .row .col-xl-4,
+  table.administration td .row .col-xl-5,
+  table.administration td .row .col-xl-6,
+  table.administration td .row .col-xl-7,
+  table.administration td .row .col-xl-8,
+  table.administration td .row .col-xl-9,
+  table.administration td .row .col-xl-auto {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  table.administration td .fa {
+    color: inherit;
+  }
+  
+  table.administration td label.required:after {
+    content: '*';
+    color: red;
+    margin-left: .25rem;
+  }
+  
+  table.administration tr#title_row td {
+    padding: .5rem;
+    height: 1rem;
+  }
+  
+  table.administration tr#title_row td h5 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  table.administration tr#content_row td div.fit-height {
+    height: 100%;
+    max-height: calc(100vh - 102px);
+  }
+  
+  table.administration tr#content_row td:nth-child(1) div#category_tree.jstree-default-dark {
+    background-color: transparent;
+  }
+  
+  table.administration tr#content_row td:nth-child(1) div#category_tree.jstree-default-dark .jstree-anchor {
+    color: #c9c9d3;
+  }
+  
+  table.administration tr#content_row td:nth-child(1) div#category_tree.jstree-default-dark .jstree-clicked,
+  table.administration tr#content_row td:nth-child(1) div#category_tree.jstree-default-dark .jstree-checked {
+    color: white;
+  }
+  
+  table.administration tr#content_row td:nth-child(2),
+  table.administration tr#content_row td:nth-child(3) {
+    border-left: 1px solid var(--border);
+  }
+  
+  table.administration tr#content_row td div#category_tree {
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  table.administration tr#content_row td div#category_form {
+    position: relative;
+    padding: .5rem;
+    background-color: #1F1E30;
+    border-top: 1px solid var(--border);
+  }
+  
+  table.administration tr#content_row td div#category_form .close {
+    font-size: 1rem;
+    color: inherit;
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    z-index: 1;
+  }
+  
+  table.administration tr#content_row td div#category_form input,
+  table.administration tr#content_row td div#category_form textarea,
+  table.administration tr#content_row td div#category_form select {
+    width: 100%;
+    background-color: var(--input-background);
+    border: none;
+    color: white;
+    padding: .125rem .25rem;
+  }
+  
+  table.administration tr#content_row td div#category_form input:focus,
+  table.administration tr#content_row td div#category_form textarea:focus,
+  table.administration tr#content_row td div#category_form select:focus {
+    outline: none;
+  }
+  
+  table.administration tr#content_row td div#task_loader {
+    position: absolute;
+    top: .25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: .25rem;
+    background-color: #33314e;
+    border-radius: .25rem;
+    border: 1px solid var(--border);
+  }
+  
+  table.administration tr#content_row td div#task_list {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+  }
+  
+  table.administration tr#content_row td div#task_list .task {
+    padding: .25rem .5rem;
+  }
+  
+  table.administration tr#content_row td div#task_list .task:hover {
+    background-color: var(--item-hover);
+  }
+  
+  table.administration tr#content_row td div#task_list .task.active {
+    color: white;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+    background-color: var(--item-active);
+  }
+  
+  table.administration tr#content_row td div#task_list .task .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  table.administration tr#content_row td div#task_list .task .title .text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+  
+  table.administration tr#content_row td div#task_list .task .title .control-list {
+    display: none;
+    white-space: nowrap;
+    user-select: none;
+  }
+  
+  table.administration tr#content_row td div#task_list .task:hover .title .control-list {
+    display: inline;
+  }
+  
+  table.administration tr#content_row td div#task_list .task .title .control-list .control {
+    cursor: pointer;
+    filter: brightness(.75);
+  }
+  
+  table.administration tr#content_row td div#task_list .task .title .control-list .control:hover {
+    filter: brightness(1);
+  }
+  
+  table.administration tr#content_row td div#task_list .task .detail {
+    display: none;
+    margin-left: 1rem;
+  }
+  
+  table.administration tr#content_row td div#task_list .task.show .detail {
+    display: block;
+  }
+  
+  table.administration tr#content_row td div#task_form {
+    position: relative;
+    padding: .5rem;
+    background-color: #1F1E30;
+    border-top: 1px solid var(--border);
+  }
+  
+  table.administration tr#content_row td div#task_form .close {
+    font-size: 1rem;
+    color: inherit;
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    z-index: 1;
+  }
+  
+  table.administration tr#content_row td div#task_form input:not([type="checkbox"]),
+  table.administration tr#content_row td div#task_form textarea,
+  table.administration tr#content_row td div#task_form select {
+    width: 100%;
+    background-color: var(--input-background);
+    border: none;
+    color: white;
+    padding: .125rem .25rem;
+  }
+  
+  table.administration tr#content_row td div#task_form input:focus,
+  table.administration tr#content_row td div#task_form textarea:focus,
+  table.administration tr#content_row td div#task_form select:focus {
+    outline: none;
+  }
+  
+  table.administration tr#content_row td div#command_loader {
+    position: absolute;
+    top: .25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: .25rem;
+    background-color: #33314e;
+    border-radius: .25rem;
+    border: 1px solid var(--border);
+  }
+  
+  table.administration tr#content_row td div#command_list {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+  }
+  
+  table.administration tr#content_row td div#command_list .command {
+    padding: .25rem .5rem;
+  }
+  
+  table.administration tr#content_row td div#command_list .command:hover {
+    background-color: var(--item-hover);
+  }
+  
+  /* table.administration tr#content_row td div#command_list .command.active { */
+  /*   color: white; */
+  /*   text-shadow: 1px 1px 0 rgba(0,0,0,0.5); */
+  /*   background-color: var(--item-active); */
+  /* } */
+  
+  table.administration tr#content_row td div#command_list .command .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  table.administration tr#content_row td div#command_list .command .title .text {
+    width: calc(100% - 4rem);
+    font-family: 'Fira Code', monospace;
+    color: var(--command-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+  
+  table.administration tr#content_row td div#command_list .command .title .control-list {
+    display: none;
+    white-space: nowrap;
+    user-select: none;
+  }
+  table.administration tr#content_row td div#command_list .command:hover .title .control-list {
+    display: inline;
+  }
+  
+  table.administration tr#content_row td div#command_list .command .title .control-list .control {
+    cursor: pointer;
+    filter: brightness(.75);
+  }
+  
+  table.administration tr#content_row td div#command_list .command .title .control-list .control:hover {
+    filter: brightness(1);
+  }
+  
+  table.administration tr#content_row td div#command_list .command .detail {
+    display: none;
+    margin-left: 1rem;
+  }
+  
+  table.administration tr#content_row td div#command_list .command.show .detail {
+    display: block;
+  }
+  
+  table.administration tr#content_row td div#command_list .command .detail .full-command {
+    font-family: 'Fira Code', monospace;
+    color: var(--command-text);
+  }
+  
+  table.administration tr#content_row td div#command_form {
+    position: relative;
+    padding: .5rem;
+    background-color: #1F1E30;
+    border-top: 1px solid var(--border);
+  }
+  
+  table.administration tr#content_row td div#command_form .close {
+    font-size: 1rem;
+    color: inherit;
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    z-index: 1;
+  }
+  
+  table.administration tr#content_row td div#command_form input,
+  table.administration tr#content_row td div#command_form textarea,
+  table.administration tr#content_row td div#command_form select {
+    width: 100%;
+    background-color: var(--input-background);
+    border: none;
+    color: white;
+    padding: .125rem .25rem;
+  }
+  
+  table.administration tr#content_row td div#command_form input:focus,
+  table.administration tr#content_row td div#command_form textarea:focus,
+  table.administration tr#content_row td div#command_form select:focus {
+    outline: none;
+  }
+  
+  

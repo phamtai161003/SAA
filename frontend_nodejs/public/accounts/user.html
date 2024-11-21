@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        Hardening
+    </title>
+
+    
+
+    <link rel="stylesheet" href="../static\css\bootstrap.min.css">
+
+    
+  <link rel="stylesheet" href="../static/css/pages/table.css">
+
+
+    <script src="../static/js/jquery-3.5.1.min.js"></script>
+    <script src="../static/js/jquery.form.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/datatables.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/fontawesome/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">Hardening</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#nav_menu"
+      aria-controls="nav_menu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav_menu">
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+          <a class="nav-link" href="/">Results</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href=../portable/portable.html>Portable</a>
+        </li>
+        
+          <li class="nav-item ">
+            <a class="nav-link" href=user.html>User</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../administration/administration.html">Administration</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="productivity.html">Productivity</a>
+          </li>
+        
+      </ul>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="login.html">Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  
+  <div class="table-container">
+    <table class="table-dual">
+      <tbody>
+        <tr id="title_row">
+          <td>
+            <h5 class="m-0 d-inline">Group</h5>
+            <i class="fa fa-plus float-right" onclick="showCreateNewGroup()"></i>
+          </td>
+          <td>
+            <h5 class="m-0">Users</h5>
+          </td>
+        </tr>
+        <tr id="content_row">
+          <td>
+            <div class="d-flex flex-column justify-content-between fit-height">
+              <div id="sidebar_list">
+  
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="card-deck" style="margin-top: 20px">
+              <div class="card">
+                <div class="card-body">
+                  <table id="detailsTable" class="table table-dark table-striped table-bordered detailsTable" style="text-align: center; height:100px;">
+                    <thead>
+                        <tr  style="background-color: #274b77; color: white">
+                            <th scope="col" style="width: 15%" >Date Joined<span class="fa float-right"></span></th>
+                            <th scope="col" style="width: 15%">Username<span class="fa float-right mt-3"></span></th>
+                            <th scope="col" style="width: 10%">Staff<span class="fa float-right mt-3"></span></th>
+                            <th scope="col" style="width: 10%">Active<span class="fa float-right mt-3"></span></th>
+                            <th scope="col" style="width: 15%">Last Login<span class="fa float-right"></span></th>
+                            <th scope="col" style="" >Crypto Key<span class="fa float-right"></span></th>
+                            <th scope="col" style="width: 10%">Action<span class="fa float-right"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">ConfirmLabel</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="confirmModalBody">
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="confirmModalButton" onclick="">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show" id="notiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Notification</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="notiModalBody">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="user-id" class="col-form-label">Id:</label>
+              <input type="text" disabled class="form-control" id="user-id">
+            </div>
+            <div class="form-group">
+              <label for="user-name" class="col-form-label">Username:</label>
+              <input type="text" class="form-control" id="user-name">
+            </div>
+            <div class="form-group">
+              <label for="user-email" class="col-form-label">Email:</label>
+              <input type="text" class="form-control" id="user-email">
+            </div>
+            <div class="form-check-inline">
+              <label for="user-is-staff" class="form-check-label">Staff:</label>
+              <input type="checkbox" class="form-check-input ml-1" id="user-is-staff">
+            </div>
+            <div class="form-check-inline">
+              <label for="user-is-active" class="form-check-label">Active:</label>
+              <input type="checkbox" class="form-check-input ml-1" id="user-is-active">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick=editUser()>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createUserModalLabel">Create User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="user-name-add" class="col-form-label">Username:</label>
+              <input type="text" class="form-control" id="user-name-add">
+            </div>
+            <div class="form-group">
+              <label for="user-pass" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="user-pass-add">
+            </div>
+            <div class="form-group">
+              <label for="user-pass-confirm" class="col-form-label">Re-enter:</label>
+              <input type="password" class="form-control" id="user-pass-confirm">
+            </div>
+            <div class="form-group">
+              <label for="user-email-add" class="col-form-label">Email:</label>
+              <input type="text" class="form-control" id="user-email-add">
+            </div>
+            <div class="form-check-inline">
+              <label for="user-is-staff-add" class="form-check-label">Staff:</label>
+              <input type="checkbox" class="form-check-input ml-1" id="user-is-staff-add">
+            </div>
+            <div class="form-check-inline">
+              <label for="user-is-active-add" class="form-check-label">Active:</label>
+              <input type="checkbox" class="form-check-input ml-1" id="user-is-active-add">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick=createUser()>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editGroupModalLabel">Edit Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="group-id" class="col-form-label">ID:</label>
+              <input type="text" disabled class="form-control" id="group-id">
+            </div>
+            <div class="form-group">
+              <label for="group-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="group-name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick=editGroup()>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createProjectModalLabel">Create Group User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="group-name-add" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="group-name-add">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="createNewGroup()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  
+  <script type="text/javascript" src="../static/js/pages/user/user.js"></script>
+  <script type="text/javascript" src="../static/js/plugins/js-cookie/js.cookie.min.js"></script>
+
+</body>
+</html>
